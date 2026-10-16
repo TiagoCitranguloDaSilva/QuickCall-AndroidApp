@@ -17,7 +17,6 @@ import java.nio.charset.StandardCharsets;
 
 public class HttpJsonClient {
 
-    // Token (o "cracha") recebido no login. E enviado em todos os pedidos.
     private static String token;
 
     public static void setToken(String novoToken) {
@@ -28,7 +27,6 @@ public class HttpJsonClient {
         return token;
     }
 
-    // Mensagem do ultimo erro que o servidor devolveu (ex.: "O id do tecnico e obrigatorio").
     private static String ultimoErro;
 
     public static String getUltimoErro() {
@@ -88,7 +86,7 @@ public class HttpJsonClient {
             return false;
         }
     }
-
+//criatura demoniaca
     private String request(String method, String path, JSONObject body) throws IOException {
         HttpURLConnection connection = null;
         try {
@@ -115,8 +113,9 @@ public class HttpJsonClient {
             InputStream stream = sucesso ? connection.getInputStream() : connection.getErrorStream();
             String corpo = stream == null ? null : readBody(stream);
 
-            // Se o servidor respondeu com erro (400, 403, 500...), NAO tratamos como sucesso.
-            // Guardamos a mensagem do servidor para mostrar na tela.
+
+            //o filho-do-cao esta dando erro(400...e os carai).
+            //guarde a mensagem do servido para mostrar na tela
             if (!sucesso) {
                 ultimoErro = "Erro " + responseCode;
                 try {

@@ -10,12 +10,12 @@ public class LoginApiService {
 
     private final HttpJsonClient client = new HttpJsonClient();
 
-    /**
-     * Passo 1: manda email e senha para /auth/login e recebe um token.
-     * Passo 2: guarda o token (todos os pedidos seguintes usam ele).
-     * Passo 3: busca nome, id e perfil do usuario em /usuario/email/{email}.
-     * Retorna null se email/senha estiverem errados ou o servidor estiver desligado.
-     */
+    // lembrete para eu nao fazer coco!
+    //1- a logica é enviar email e senha, auth/login ai recebe token
+    //2- vc guarda o token, ai todo pediod usa ele
+    //3- busca nome, id e perfil do usuario/email
+    // NAO SEJA BURRO DE ESQUECER QUE TEM QUE RETORNAR NULL SE O EMAIL E SENHA ESTIVER ERRADO
+    // E DEIXE O SERVIDOR LIGADO!
     public Usuario login(String email, String senha) {
         try {
             JSONObject body = new JSONObject();

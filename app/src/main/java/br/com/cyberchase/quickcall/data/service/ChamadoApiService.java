@@ -116,7 +116,15 @@ public class ChamadoApiService {
 
         // Prioridade vem so com o nome: procuramos o id pelo nome na lista de prioridades.
         JSONObject prioridade = json.optJSONObject("prioridade");
-        chamado.setPrioridadeId(prioridade == null ? null : idDaPrioridade(prioridade.optString("nome", null)));
+        if (prioridade != null && prioridade.has("id")) {
+            chamado.setPrioridadeId(prioridade.optLong("id"));
+        } else {
+            chamado.setPrioridadeId(prioridade == null ? null : idDaPrioridade(prioridade.optString("nome", null)));
+        }
+
+        // Versao nova do servidor: o chamado diz qual tecnico esta atendendo
+        JSONObject tecnico = json.optJSONObject("tecnico");
+        chamado.setTecnicoResponsavelId(tecnico == null ? null : tecnico.optLong("id"));
 
         return chamado;
     }

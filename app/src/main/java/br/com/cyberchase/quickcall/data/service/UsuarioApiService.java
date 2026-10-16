@@ -110,6 +110,18 @@ public class UsuarioApiService {
         if (tipoPerfil != null && !tipoPerfil.isBlank() && !"null".equalsIgnoreCase(tipoPerfil)) {
             usuario.setTipoPerfil(converterPerfil(tipoPerfil));
         }
+        // Versao nova do servidor: o perfil vem como numero (idPerfil).
+        // 1 = Administrador, 2 = Tecnico, 3 = Usuario Comum (mesma ordem do GET /perfil)
+        if (!json.isNull("idPerfil")) {
+            int idPerfil = json.optInt("idPerfil");
+            if (idPerfil == 1) {
+                usuario.setTipoPerfil(TipoPerfil.ADMINISTRADOR);
+            } else if (idPerfil == 2) {
+                usuario.setTipoPerfil(TipoPerfil.TECNICO);
+            } else if (idPerfil == 3) {
+                usuario.setTipoPerfil(TipoPerfil.SOLICITANTE);
+            }
+        }
         usuario.setSetorId(json.isNull("setorId") ? null : json.getLong("setorId"));
         usuario.setMatriculaOuRegistro(json.isNull("matriculaOuRegistro") ? null : json.getString("matriculaOuRegistro"));
         usuario.setNivelAcesso(json.isNull("nivelAcesso") ? null : json.getInt("nivelAcesso"));

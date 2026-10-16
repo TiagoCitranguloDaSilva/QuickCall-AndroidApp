@@ -26,8 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         NetworkPolicy.enable();
         new DemoDataSeeder(this).seedIfNeeded();
 
-        // O token do servidor expira depois de algumas horas.
-        // Por isso, toda vez que o app abre, pedimos o login de novo.
+
         new SessionManager(this).logout();
         HttpJsonClient.setToken(null);
 

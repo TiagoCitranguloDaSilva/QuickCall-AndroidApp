@@ -180,6 +180,24 @@ Enquanto o Tiago não corrige, coloquei um contorno na **ChamadoDetalheActivity*
 
 ---
 
+## Dia 7 — O Tiago corrigiu o back-end, então ajustei o app
+
+### O que mudou no servidor
+
+Baixei a versão nova do servidor (`docker compose pull`) e testei. O Tiago resolveu os problemas da lista: o chamado agora tem título, prioridades e técnicos vêm com `id`, o chamado diz qual técnico está atendendo, e o erro na primeira mudança de status sumiu.
+
+Uma coisa mudou de formato: o usuário agora vem com `idPerfil` (um número) em vez de `tipoPerfil`.
+
+### O que eu fiz no app
+
+No **UsuarioApiService**, o app agora lê o `idPerfil`: 1 é Administrador, 2 é Técnico e 3 é Usuário Comum. Com isso o perfil aparece na tela principal e o botão Excluir volta a aparecer só para técnico e administrador.
+
+Na **ChamadoDetalheActivity**, tirei a segunda tentativa automática ao salvar o status, porque o bug que ela contornava não existe mais. E quando o chamado já tem técnico, ele aparece selecionado na lista.
+
+No **ChamadoApiService**, o app usa o `id` da prioridade que vem do servidor (antes adivinhava pela posição) e guarda o técnico responsável do chamado.
+
+---
+
 ## Coisas que mudei no back-end (só no meu computador)
 
 Não mexi no código do servidor, só em como eu rodo ele aqui.
@@ -191,6 +209,8 @@ Também criei um script chamado `ligar.sh`, que apaga o banco e liga o servidor 
 ---
 
 ## Coisas para o Tiago olhar no back-end
+
+**Atualização (16/10):** testei a versão nova do servidor e os itens 2 a 8 abaixo estão corrigidos (o perfil agora vem como `idPerfil`). O item 1 (servidor caindo ao religar) eu ainda não testei, porque continuo ligando com o banco zerado. Deixei a lista aqui como registro do que foi encontrado.
 
 Tiago, achei algumas coisas no servidor que atrapalham o app. Nada urgente, mas quando der:
 

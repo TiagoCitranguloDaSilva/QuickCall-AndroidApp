@@ -66,7 +66,7 @@ public class ChamadoDetalheActivity extends AppCompatActivity {
         Button comentarButton = findViewById(R.id.button_adicionar_comentario);
         Button excluirButton = findViewById(R.id.button_excluir_chamado);
 
-        // Botao Voltar: fecha esta tela e volta para a lista
+        // Botao Voltar: fecha esta tela e volta para a lista (nao esquecer de mexer no desing)
         findViewById(R.id.button_voltar).setOnClickListener(v -> finish());
 
         carregarChamado();
@@ -76,7 +76,7 @@ public class ChamadoDetalheActivity extends AppCompatActivity {
 
         String perfil = new SessionManager(this).obterPerfilUsuarioLogado();
         // So tecnico e administrador podem excluir.
-        // Enquanto o servidor nao informar o perfil (vem null), o botao fica visivel.
+        //deu erro nessa porcaria, o servidor nao informa o perfil (vem null)
         if (perfil != null && !"TECNICO".equals(perfil) && !"ADMINISTRADOR".equals(perfil)) {
             excluirButton.setVisibility(View.GONE);
         }
@@ -119,10 +119,8 @@ public class ChamadoDetalheActivity extends AppCompatActivity {
         statusSpinner.setSelection(selectedIndex);
     }
 
-    /**
-     * Preenche a lista de tecnicos. O servidor exige um tecnico para mudar o status.
-     * Ja deixa selecionado um tecnico que atende a categoria deste chamado.
-     */
+    // tentei mudar o status e nao deu certo. pq para isso precisa de um tecnico. como vamos precisar
+    //criar as paginas de cadastro, decidi apenar criar algo simples.
     private void carregarTecnicos() {
         tecnicos = new TecnicoApiService().listarTodos();
         List<String> nomes = new ArrayList<>();
@@ -134,6 +132,14 @@ public class ChamadoDetalheActivity extends AppCompatActivity {
             if (chamado != null && tecnico.atende(chamado.getCategoriaId()) && !achou) {
                 selecionado = i;
                 achou = true;
+            }
+        }
+        // Se o chamado ja tem tecnico, deixa ele selecionado
+        if (chamado != null && chamado.getTecnicoResponsavelId() != null) {
+            for (int i = 0; i < tecnicos.size(); i++) {
+                if (chamado.getTecnicoResponsavelId().equals(tecnicos.get(i).getId())) {
+                    selecionado = i;
+                }
             }
         }
         if (nomes.isEmpty()) {
@@ -187,7 +193,7 @@ public class ChamadoDetalheActivity extends AppCompatActivity {
             String mudanca = historico.getAcao();
             String antes = textoDoHistorico(historico.getAcao(), historico.getValorAnterior());
             String depois = textoDoHistorico(historico.getAcao(), historico.getValorNovo());
-            // So mostra "antes -> depois" quando tem algum valor (na "Criacao" os dois vem vazios)
+            // So mostra "antes -> depois" quando tem algum valor. na "Criacao" os dois vem vazios
             if (antes != null || depois != null) {
                 mudanca += ": " + (antes == null ? "-" : antes) + " -> " + (depois == null ? "-" : depois);
             }
@@ -199,10 +205,8 @@ public class ChamadoDetalheActivity extends AppCompatActivity {
         preencherLista(historicoListView, linhas);
     }
 
-    /**
-     * O servidor grava a mudanca de status com o numero (ex.: "1 -> 2").
-     * Aqui trocamos o numero pelo nome (ex.: "Aberto -> Em Atendimento").
-     */
+    // o servidor estava marcando as mudancas de status como numero.
+    //troquei os numro para: aberto - em atendimento
     private String textoDoHistorico(String acao, String valor) {
         if (valor == null || valor.trim().isEmpty()) {
             return null;
@@ -217,7 +221,7 @@ public class ChamadoDetalheActivity extends AppCompatActivity {
         return valor;
     }
 
-    /** Coloca cada linha de texto dentro da caixa, uma embaixo da outra. */
+    //a porcaria estava toda embaralhada. aqui eu organizei uma em baixo da outra
     private void preencherLista(LinearLayout caixa, List<String> linhas) {
         caixa.removeAllViews();
         for (String linha : linhas) {
@@ -243,7 +247,7 @@ public class ChamadoDetalheActivity extends AppCompatActivity {
             Toast.makeText(this, "Nenhum tecnico cadastrado no servidor.", Toast.LENGTH_LONG).show();
             return;
         }
-        // O tecnico escolhido assume o chamado e muda o status (metodos da classe Tecnico, da especificacao)
+        // O tecnico escolhido assume o chamado e muda o status
         Tecnico tecnico = tecnicos.get(tecnicoSpinner.getSelectedItemPosition());
         tecnico.aceitarChamado(chamado);
         tecnico.atualizarStatusChamado(chamado, novoStatus.getId());
@@ -256,15 +260,6 @@ public class ChamadoDetalheActivity extends AppCompatActivity {
 
         long chamadoId = chamado.getId();
         Chamado resposta = new ChamadoRepository(this).salvar(chamado);
-
-        // CONTORNO TEMPORARIO de um bug do servidor:
-        // quando o chamado ainda nao tem tecnico, o servidor da erro interno na 1a tentativa
-        // (NullPointerException em RelatorioChamadoService) e responde 403.
-        // A 2a tentativa, igual, funciona. Entao tentamos mais uma vez automaticamente.
-        // Pode tirar isto quando o Tiago corrigir o back-end.
-        if (resposta == null) {
-            resposta = new ChamadoRepository(this).salvar(chamado);
-        }
         if (resposta == null) {
             String erro = br.com.cyberchase.quickcall.network.HttpJsonClient.getUltimoErro();
             Toast.makeText(this, "Nao foi possivel atualizar o status" + (erro == null ? "." : ": " + erro), Toast.LENGTH_LONG).show();
@@ -272,11 +267,10 @@ public class ChamadoDetalheActivity extends AppCompatActivity {
             return;
         }
 
-        // Depois de salvar, busca o chamado de novo no servidor (GET /chamado/{id}).
-        // A resposta do PUT pode vir incompleta, entao confiamos so no GET.
+
         chamado = new ChamadoRepository(this).buscarPorId(chamadoId);
 
-        // O historico da mudanca e gravado pelo proprio servidor.
+        //a parada fica salva no servidor. avisar o tiago, se haver algum outro problema relacionado
         Toast.makeText(this, "Status atualizado.", Toast.LENGTH_SHORT).show();
         atualizarTela();
     }
