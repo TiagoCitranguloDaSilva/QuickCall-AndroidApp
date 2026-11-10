@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="qc_fundo">#0D0D0F</color>
+    <color name="qc_cartao">#1C1C22</color>
+    <color name="qc_vermelho">#D62839</color>
+    <color name="qc_azul">#2F6FED</color>
+    <color name="qc_texto">#F5F5F7</color>
+    <color name="qc_texto_secundario">#9A9AA5</color>
+    <color name="qc_borda">#2A2A33</color>
+    <color name="qc_amarelo">#F5B700</color>
+    <color name="qc_laranja">#F27420</color>
 </resources>

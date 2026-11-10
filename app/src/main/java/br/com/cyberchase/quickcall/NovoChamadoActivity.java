@@ -21,6 +21,7 @@ import br.com.cyberchase.quickcall.model.Chamado;
 import br.com.cyberchase.quickcall.model.HistoricoChamado;
 import br.com.cyberchase.quickcall.model.Prioridade;
 import br.com.cyberchase.quickcall.network.NetworkPolicy;
+import br.com.cyberchase.quickcall.ui.PrioridadeSpinnerAdapter;
 
 public class NovoChamadoActivity extends AppCompatActivity {
 
@@ -44,7 +45,7 @@ public class NovoChamadoActivity extends AppCompatActivity {
         prioridadeSpinner = findViewById(R.id.spinner_prioridade);
         Button salvarButton = findViewById(R.id.button_salvar_chamado);
 
-        // Botao Voltar: fecha esta tela e volta para a lista
+
         findViewById(R.id.button_voltar).setOnClickListener(v -> finish());
 
         carregarCatalogos();
@@ -72,11 +73,7 @@ public class NovoChamadoActivity extends AppCompatActivity {
                 categoriasNomes
         ));
 
-        prioridadeSpinner.setAdapter(new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_dropdown_item,
-                prioridadesNomes
-        ));
+        prioridadeSpinner.setAdapter(new PrioridadeSpinnerAdapter(this, prioridadesNomes));
     }
 
     private void salvarChamado() {

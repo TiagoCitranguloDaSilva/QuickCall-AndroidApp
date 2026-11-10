@@ -12,10 +12,6 @@ import br.com.cyberchase.quickcall.model.Prioridade;
 import br.com.cyberchase.quickcall.model.StatusChamado;
 import br.com.cyberchase.quickcall.network.HttpJsonClient;
 
-/**
- * Listas fixas do sistema (categorias, prioridades e status).
- * Agora vem do servidor. Se o servidor nao responder, usa uma lista local de reserva.
- */
 public class CatalogoRepository {
 
     private final CategoriaApiService categoriaApiService = new CategoriaApiService();
@@ -25,10 +21,6 @@ public class CatalogoRepository {
         return categoriaApiService.listarTodas();
     }
 
-    /**
-     * GET /prioridade devolve so o nome (sem id). Por isso o id e a posicao na lista:
-     * 1 = primeira (Baixa), 2 = segunda (Media)... igual a ordem do banco.
-     */
     public List<Prioridade> listarPrioridadesPadrao() {
         List<Prioridade> prioridades = new ArrayList<>();
         JSONArray array = client.getArray("/prioridade");

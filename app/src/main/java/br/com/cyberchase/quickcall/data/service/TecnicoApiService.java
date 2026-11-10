@@ -9,12 +9,7 @@ import java.util.List;
 import br.com.cyberchase.quickcall.model.Tecnico;
 import br.com.cyberchase.quickcall.network.HttpJsonClient;
 
-/**
- * Lista os tecnicos: GET /tecnico
- * Cada item: {"nome":"Tecnico1","telefone":"...","categorias":[{"id":3,"nome":"Redes"}, ...]}
- * A API ainda nao devolve o id do tecnico. Como GET /tecnico/1 e o primeiro da lista,
- * GET /tecnico/2 o segundo..., usamos a posicao na lista como id.
- */
+
 public class TecnicoApiService {
 
     private final HttpJsonClient client = new HttpJsonClient();

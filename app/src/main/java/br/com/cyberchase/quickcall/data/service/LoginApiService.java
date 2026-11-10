@@ -12,7 +12,7 @@ public class LoginApiService {
 
     // lembrete para eu nao fazer coco!
     //1- a logica é enviar email e senha, auth/login ai recebe token
-    //2- vc guarda o token, ai todo pediod usa ele
+    //2- vc guarda o token, ai todo pedido usa ele
     //3- busca nome, id e perfil do usuario/email
     // NAO SEJA BURRO DE ESQUECER QUE TEM QUE RETORNAR NULL SE O EMAIL E SENHA ESTIVER ERRADO
     // E DEIXE O SERVIDOR LIGADO!

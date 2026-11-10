@@ -77,8 +77,7 @@ public class UsuarioApiService {
         client.delete("/usuario/" + id);
     }
 
-    // O servidor pode mandar "ADMIN", "TECNICO", "TÉCNICO", "USUARIO"...
-    // Aqui convertemos para os 3 perfis do app, sem travar se vier outro nome.
+
     private TipoPerfil converterPerfil(String nome) {
         String n = nome.toUpperCase().replace("É", "E");
         if (n.startsWith("ADMIN")) {
@@ -110,8 +109,7 @@ public class UsuarioApiService {
         if (tipoPerfil != null && !tipoPerfil.isBlank() && !"null".equalsIgnoreCase(tipoPerfil)) {
             usuario.setTipoPerfil(converterPerfil(tipoPerfil));
         }
-        // Versao nova do servidor: o perfil vem como numero (idPerfil).
-        // 1 = Administrador, 2 = Tecnico, 3 = Usuario Comum (mesma ordem do GET /perfil)
+
         if (!json.isNull("idPerfil")) {
             int idPerfil = json.optInt("idPerfil");
             if (idPerfil == 1) {

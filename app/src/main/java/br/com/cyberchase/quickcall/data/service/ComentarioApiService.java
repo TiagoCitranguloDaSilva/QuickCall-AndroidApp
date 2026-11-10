@@ -11,12 +11,6 @@ import java.util.List;
 import br.com.cyberchase.quickcall.model.Comentario;
 import br.com.cyberchase.quickcall.network.HttpJsonClient;
 
-/**
- * Comentarios de um chamado.
- * Listar: GET /comentario/chamado/{id}
- * Criar:  POST /comentario  {"chamadoId":3, "usuarioId":1, "mensagem":"texto"}
- * O servidor devolve: {"id":1, "chamadoId":3, "usuarioId":1, "mensagem":"texto", "dataHora":"..."}
- */
 public class ComentarioApiService {
 
     private final HttpJsonClient client = new HttpJsonClient();
@@ -56,7 +50,7 @@ public class ComentarioApiService {
             try {
                 comentario.setDataHora(LocalDateTime.parse(json.optString("dataHora")));
             } catch (Exception ignored) {
-                // formato de data inesperado: deixa sem data
+                // formato de data estranho. deixei sem data
             }
         }
         return comentario;

@@ -10,12 +10,7 @@ import java.util.List;
 import br.com.cyberchase.quickcall.model.HistoricoChamado;
 import br.com.cyberchase.quickcall.network.HttpJsonClient;
 
-/**
- * Historico de um chamado.
- * Quem registra o historico e o proprio servidor (quando o chamado muda).
- * O app so le: GET /relatorio/chamado/{id}
- * Cada item: {"id":1, "tipoMudanca":"STATUS", "valorAntigo":"Aberto", "valorNovo":"Resolvido", "dataHora":"...", "idChamado":4}
- */
+
 public class HistoricoApiService {
 
     private final HttpJsonClient client = new HttpJsonClient();
@@ -24,7 +19,7 @@ public class HistoricoApiService {
         List<HistoricoChamado> historicos = new ArrayList<>();
         String rota = "/relatorio/chamado/" + chamadoId;
 
-        // O servidor pode devolver uma lista [...] ou um item so {...}. Tratamos os dois casos.
+
         JSONArray array = client.getArray(rota);
         if (array.length() == 0) {
             JSONObject unico = client.getObject(rota);
@@ -56,7 +51,7 @@ public class HistoricoApiService {
         return historicos;
     }
 
-    /** O servidor ja grava o historico sozinho. Este metodo nao envia nada. */
+    //tiago ja deixou salvo o historico no servidor
     public HistoricoChamado salvar(HistoricoChamado historico) {
         return historico;
     }

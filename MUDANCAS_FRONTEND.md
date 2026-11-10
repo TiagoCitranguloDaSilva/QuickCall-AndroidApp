@@ -198,6 +198,18 @@ No **ChamadoApiService**, o app usa o `id` da prioridade que vem do servidor (an
 
 ---
 
+## Dia 8 (10/11/2026) — Visual novo e escolha do servidor
+
+**Visual:** o app ficou com tema escuro: preto de base, vermelho nos botões principais e azul nos detalhes, inspirado na Quick Easy. As cores ficam em `colors.xml` e o tema em `themes.xml`. O login ganhou um logo em texto ("Quick" branco e "Call" vermelho), e os botões e campos ficaram com cantos mais retos.
+
+**Lista em cartões:** cada chamado agora é um cartão (`item_chamado.xml`), com etiquetas de status e de prioridade. A prioridade tem uma bolinha colorida: Baixa azul, Média amarela, Alta laranja e Urgente vermelha. A mesma bolinha aparece na hora de escolher a prioridade no novo chamado. Quem monta isso são as classes novas da pasta `ui`: `ChamadoAdapter`, `PrioridadeCores` e `PrioridadeSpinnerAdapter`.
+
+**Escolher o servidor (pedido do Tiago):** na tela de login tem o link "⚙ Servidor", onde dá para trocar o IP e a porta sem mexer no código. O app guarda a escolha. O padrão é `10.0.2.2:8080`, que é o computador visto de dentro do emulador. Num celular de verdade, use o IP do computador na mesma rede Wi-Fi. Quem guarda isso é o `ApiConfig`.
+
+Nada disso muda o servidor.
+
+---
+
 ## Coisas que mudei no back-end (só no meu computador)
 
 Não mexi no código do servidor, só em como eu rodo ele aqui.

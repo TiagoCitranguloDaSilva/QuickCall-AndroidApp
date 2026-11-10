@@ -90,7 +90,7 @@ public class HttpJsonClient {
     private String request(String method, String path, JSONObject body) throws IOException {
         HttpURLConnection connection = null;
         try {
-            URL url = new URL(ApiConfig.BASE_URL + path);
+            URL url = new URL(ApiConfig.getBaseUrl() + path);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
             connection.setRequestProperty("Content-Type", "application/json");

@@ -1,7 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Quickcall" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Base.Theme.Quickcall" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/qc_vermelho</item>
+        <item name="colorOnPrimary">@color/qc_texto</item>
+        <item name="colorSecondary">@color/qc_azul</item>
+        <item name="android:colorBackground">@color/qc_fundo</item>
+        <item name="colorSurface">@color/qc_cartao</item>
+        <item name="colorOnSurface">@color/qc_texto</item>
+        <item name="colorOnBackground">@color/qc_texto</item>
+        <item name="android:textColorPrimary">@color/qc_texto</item>
+        <item name="android:textColorSecondary">@color/qc_texto_secundario</item>
+        <item name="android:statusBarColor">@color/qc_fundo</item>
+        <item name="materialButtonStyle">@style/Widget.Quickcall.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.Quickcall.Button.Outlined</item>
     </style>
 </resources>

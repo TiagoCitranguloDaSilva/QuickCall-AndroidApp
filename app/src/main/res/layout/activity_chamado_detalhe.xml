@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/qc_fundo">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:paddingTop="28dp">
 
         <Button
             android:id="@+id/button_voltar"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Voltar" />
+            android:text="Voltar"
+            android:textColor="@color/qc_texto_secundario" />
 
 
         <TextView
             android:id="@+id/text_titulo_detalhe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -29,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="@color/qc_texto_secundario"
             android:textSize="15sp" />
 
         <TextView
@@ -36,7 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:padding="8dp" />
+            android:background="@drawable/bg_cartao_destaque"
+            android:padding="14dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -70,14 +77,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Salvar status" />
+            android:text="Salvar status"
+            app:backgroundTint="@color/qc_azul" />
 
         <Button
             android:id="@+id/button_excluir_chamado"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Excluir chamado" />
+            android:text="Excluir chamado"
+            android:textColor="@color/qc_vermelho"
+            app:strokeColor="@color/qc_vermelho" />
 
         <TextView
             android:layout_width="match_parent"
@@ -95,14 +106,18 @@
             android:gravity="top"
             android:hint="Escreva uma atualizacao"
             android:minHeight="100dp"
-            android:padding="12dp" />
+            android:background="@drawable/bg_campo"
+            android:textColor="@color/qc_texto"
+            android:textColorHint="@color/qc_texto_secundario"
+            android:padding="14dp" />
 
         <Button
             android:id="@+id/button_adicionar_comentario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Adicionar comentario" />
+            android:text="Adicionar comentario"
+            app:backgroundTint="@color/qc_azul" />
 
         <TextView
             android:layout_width="match_parent"

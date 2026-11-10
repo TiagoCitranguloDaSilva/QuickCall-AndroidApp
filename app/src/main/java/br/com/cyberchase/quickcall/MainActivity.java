@@ -2,7 +2,6 @@ package br.com.cyberchase.quickcall;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,13 +22,14 @@ import br.com.cyberchase.quickcall.model.Categoria;
 import br.com.cyberchase.quickcall.model.Chamado;
 import br.com.cyberchase.quickcall.model.Prioridade;
 import br.com.cyberchase.quickcall.model.StatusChamado;
+import br.com.cyberchase.quickcall.network.ApiConfig;
 import br.com.cyberchase.quickcall.network.NetworkPolicy;
-import br.com.cyberchase.quickcall.ui.UiFormatter;
+import br.com.cyberchase.quickcall.ui.ChamadoAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     private final List<Chamado> chamados = new ArrayList<>();
-    private ArrayAdapter<String> chamadosAdapter;
+    private ChamadoAdapter chamadosAdapter;
     private TextView resumoView;
     private ListView chamadosListView;
 
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NetworkPolicy.enable();
+        ApiConfig.carregar(this);
         new DemoDataSeeder(this).seedIfNeeded();
         SessionManager sessionManager = new SessionManager(this);
         if (!sessionManager.estaLogado()) {
@@ -57,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
         Button novoChamadoButton = findViewById(R.id.button_novo_chamado);
         Button sairButton = findViewById(R.id.button_sair);
 
-        chamadosAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
-        chamadosListView.setAdapter(chamadosAdapter);
 
         novoChamadoButton.setOnClickListener(v ->
                 startActivity(new Intent(this, NovoChamadoActivity.class)));
@@ -88,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         chamados.clear();
         chamados.addAll(new ChamadoRepository(this).listarTodos());
 
-        // Busca as listas do servidor UMA vez (antes buscava a cada chamado da lista).
         CatalogoRepository catalogoRepository = new CatalogoRepository();
         List<StatusChamado> status = catalogoRepository.listarStatusPadrao();
         List<Prioridade> prioridades = catalogoRepository.listarPrioridadesPadrao();
@@ -98,22 +96,8 @@ public class MainActivity extends AppCompatActivity {
         String nomeUsuario = sessionManager.obterNomeUsuarioLogado();
         String perfilUsuario = sessionManager.obterPerfilUsuarioLogado();
 
-        // Cada item da lista: titulo na 1a linha; status, prioridade, categoria e data na 2a.
-        List<String> linhas = new ArrayList<>();
-        for (Chamado chamado : chamados) {
-            linhas.add(
-                    "#" + chamado.getId() + "  " + (chamado.getTitulo() == null ? "Chamado" : chamado.getTitulo())
-                            + "\n"
-                            + UiFormatter.findStatusNome(status, chamado.getStatusId())
-                            + " | " + UiFormatter.findPrioridadeNome(prioridades, chamado.getPrioridadeId())
-                            + " | " + UiFormatter.findCategoriaNome(categorias, chamado.getCategoriaId())
-                            + " | " + UiFormatter.formatDateTime(chamado.getDataAbertura())
-            );
-        }
-
-        chamadosAdapter.clear();
-        chamadosAdapter.addAll(linhas);
-        chamadosAdapter.notifyDataSetChanged();
+        chamadosAdapter = new ChamadoAdapter(this, chamados, status, prioridades, categorias);
+        chamadosListView.setAdapter(chamadosAdapter);
 
         resumoView.setText(
                 "Usuario logado: " + (nomeUsuario == null ? "-" : nomeUsuario)

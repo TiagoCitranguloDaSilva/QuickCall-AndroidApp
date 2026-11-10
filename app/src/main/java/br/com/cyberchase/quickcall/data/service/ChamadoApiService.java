@@ -49,10 +49,6 @@ public class ChamadoApiService {
         }
     }
 
-    /**
-     * Cria (POST) ou atualiza (PUT) um chamado.
-     * Campos no formato que a API espera: titulo, descricao, idPrioridade, idStatus, idCategoria, idUsuario.
-     */
     public Chamado salvar(Chamado chamado) {
         try {
             JSONObject body = new JSONObject();
@@ -82,16 +78,11 @@ public class ChamadoApiService {
         return client.deleteResource("/chamado/" + id);
     }
 
-    /**
-     * Converte o JSON do servidor em um objeto Chamado. Exemplo do que chega:
-     * {"id":1,"descricao":"...","prioridade":{"nome":"Alta"},"dataAbertura":"2026-09-28T09:00:00",
-     *  "idUsuario":4,"status":{"id":2,"nome":"Em Atendimento"},"categoria":{"id":3,"nome":"Redes"}}
-     */
+    //Json xarope
     private Chamado toChamado(JSONObject json) throws JSONException {
         Chamado chamado = new Chamado();
         chamado.setId(json.optLong("id"));
 
-        // A API ainda nao devolve "titulo". Enquanto isso, a descricao vira o titulo.
         String descricao = texto(json, "descricao");
         String titulo = texto(json, "titulo");
         chamado.setTitulo(titulo != null ? titulo : descricao);
@@ -102,7 +93,7 @@ public class ChamadoApiService {
             try {
                 chamado.setDataAbertura(LocalDateTime.parse(dataAbertura));
             } catch (Exception ignored) {
-                // formato inesperado: deixa sem data
+
             }
         }
 

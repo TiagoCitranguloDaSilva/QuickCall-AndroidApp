@@ -2,11 +2,7 @@ package br.com.cyberchase.quickcall.model;
 
 import java.time.LocalDateTime;
 
-/**
- * Classe base de qualquer pessoa que usa o sistema.
- * Pela especificacao, Solicitante, Tecnico e Administrador herdam desta classe.
- * Os dados que sao so do tecnico ficam na classe Tecnico.
- */
+
 public class Usuario {
 
     private Long id;
@@ -51,7 +47,7 @@ public class Usuario {
     }
 
     public void logout() {
-        // Mantido como ponto de extensao para controle de sessao.
+
     }
 
     public void alterarSenha(String novaSenhaHash) {

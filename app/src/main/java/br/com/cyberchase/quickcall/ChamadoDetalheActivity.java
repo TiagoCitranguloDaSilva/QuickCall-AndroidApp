@@ -242,17 +242,17 @@ public class ChamadoDetalheActivity extends AppCompatActivity {
         String statusAnterior = UiFormatter.findStatusNome(statusChamados, chamado.getStatusId());
         chamado.alterarStatus(novoStatus.getId());
 
-        // O servidor so aceita a mudanca se o chamado tiver um tecnico responsavel.
+
         if (tecnicos.isEmpty()) {
             Toast.makeText(this, "Nenhum tecnico cadastrado no servidor.", Toast.LENGTH_LONG).show();
             return;
         }
-        // O tecnico escolhido assume o chamado e muda o status
+
         Tecnico tecnico = tecnicos.get(tecnicoSpinner.getSelectedItemPosition());
         tecnico.aceitarChamado(chamado);
         tecnico.atualizarStatusChamado(chamado, novoStatus.getId());
 
-        // "Resolvido" e "Fechado" sao os status finais no banco
+
         boolean statusFinal = "Resolvido".equalsIgnoreCase(novoStatus.getNome()) || "Fechado".equalsIgnoreCase(novoStatus.getNome());
         if (statusFinal && chamado.getDataFechamento() == null) {
             chamado.fechar("Encerrado manualmente no prototipo");
